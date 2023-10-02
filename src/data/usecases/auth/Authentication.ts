@@ -2,6 +2,7 @@ import {
   UnimplementMethodError,
   UninitializeMethodError,
 } from "@domain/errors";
+import { Auth } from "@domain/models/auth";
 import { IAuth0Adapter } from "@domain/usecases/auth";
 import { IAuthentication } from "@domain/usecases/auth/IAuthentication";
 import { AuthenticationTypes } from "@main/service";
@@ -21,15 +22,14 @@ export class AuthenticationUsecase implements IAuthentication {
     const accessToken = await getAccessTokenSilently();
     return accessToken;
   };
-  loginWithPopUp: () => Promise<void> = async () => {
-    const loginWithRedirect = this.auth0Adapter.loginWithRedirect;
-    if (!loginWithRedirect) throw UninitializeMethodError;
-    await loginWithRedirect();
-  };
-  loginWithCredentials: (
-    params: IAuthentication.Params
-  ) => Promise<void> = async ({ email, password }) => {
-    throw UnimplementMethodError;
+  login: (params: IAuthentication.Params) => Promise<Auth> = async ({
+    email,
+    password,
+  }) => {
+    const getAccessTokenSilently = this.auth0Adapter.getAccessTokenSilently;
+    if (!getAccessTokenSilently) throw UninitializeMethodError;
+    const accessToken = await getAccessTokenSilently();
+    return { accessToken };
   };
   logout: () => Promise<void> = async () => {
     const logout = this.auth0Adapter.logout;

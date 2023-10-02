@@ -3,10 +3,9 @@ import { Auth } from "@domain/models/auth/auth";
 export interface IAuthentication {
   isAuthenticated: () => boolean;
   getAccessToken: () => Promise<string>;
-  loginWithPopUp: () => Promise<void>;
-  loginWithCredentials: (
+  login:(
     params: IAuthentication.Params
-  ) => Promise<void>;
+  )=> Promise<IAuthentication.Model>
   logout: () => Promise<void>;
 }
 
