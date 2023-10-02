@@ -1,5 +1,5 @@
-export const api = {
+export const apiConfig = {
   baseDomain: "string | null",
 };
 
-export default api;
+export default apiConfig;
